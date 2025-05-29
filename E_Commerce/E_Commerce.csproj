@@ -16,4 +16,14 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Web.Utility\Web.Utility.csproj" />
+    <ProjectReference Include="..\Web_DataAccess\Web.DataAccess.csproj" />
+    <ProjectReference Include="..\Web_Models\Web.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>
