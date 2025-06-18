@@ -17,7 +17,7 @@
                                 <p class="text-dark text-opacity-75 text-center mb-0">
                                     List Price: 
                                     <span class="text-decoration-line-through">
-                                        @product.ListPrice.ToString("c")
+                                        @product.ListPrice.ToString("c", new System.Globalization.CultureInfo("en-US"))
                                         </span>
                                 </p>
                             </div>
@@ -25,7 +25,7 @@
                                 <p class="text-dark text-opacity-75 text-center">
                                     As low as: 
                                     <span>
-                                        @product.Price100.ToString("c")
+                                        @product.Price100.ToString("c", new System.Globalization.CultureInfo("en-US"))
                                     </span>
                                 </p>
                             </div>
