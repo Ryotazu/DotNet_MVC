@@ -25,7 +25,7 @@ namespace Web.DataAccess.Repository
 
         public void UpdateStatus(int id, string orderStatus, string? paymentStatus = null)
         {
-            var orderFromDb = _db.OrderHeaders.FirstOrDefault(aa => aa.id == id);
+            var orderFromDb = _db.OrderHeaders.FirstOrDefault(aa => aa.Id == id);
             if (orderFromDb != null)
             {
                 orderFromDb.OrderStatus = orderStatus;
@@ -38,7 +38,7 @@ namespace Web.DataAccess.Repository
 
         public void UpdateStripePaymentID(int id, string SessionId, string paymentIntentId)
         {
-            var orderFromDb = _db.OrderHeaders.FirstOrDefault(aa => aa.id == id);
+            var orderFromDb = _db.OrderHeaders.FirstOrDefault(aa => aa.Id == id);
             if (orderFromDb != null)
             { 
                 if (!string.IsNullOrEmpty(SessionId))

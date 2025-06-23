@@ -100,7 +100,7 @@ namespace E_Commerce.Areas.Customer.Controllers
             {
                 // it is a company user
                 ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusDelayedPayment;
-                ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
+                ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusApproved;
             }
 
             _unitOfWork.OrderHeader.Add(ShoppingCartVM.OrderHeader);
@@ -111,7 +111,7 @@ namespace E_Commerce.Areas.Customer.Controllers
                 OrderDetail orderDetail = new OrderDetail()
                 {
                     ProductId = cart.ProductId,
-                    OrderHeaderId = ShoppingCartVM.OrderHeader.id,
+                    OrderHeaderId = ShoppingCartVM.OrderHeader.Id,
                     Price = cart.Price,
                     Count = cart.Count
                 };
@@ -127,7 +127,7 @@ namespace E_Commerce.Areas.Customer.Controllers
                 var domain = "https://localhost:7124/";
                 var options = new SessionCreateOptions
                 {
-                    SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.id}",
+                    SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
                     CancelUrl = domain + "customer/cart/index",
                     LineItems = new List<SessionLineItemOptions>(),
                     Mode = "payment",
@@ -154,7 +154,7 @@ namespace E_Commerce.Areas.Customer.Controllers
                 var service = new SessionService();
                 Session session = service.Create(options);
 
-                _unitOfWork.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.id, session.Id, session.PaymentIntentId);
+                _unitOfWork.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
                 _unitOfWork.Save();
 
                 Response.Headers.Add("Location", session.Url);
@@ -162,12 +162,12 @@ namespace E_Commerce.Areas.Customer.Controllers
             }
 
 
-            return RedirectToAction(nameof(OrderConfirmation), new {id = ShoppingCartVM.OrderHeader.id});
+            return RedirectToAction(nameof(OrderConfirmation), new {id = ShoppingCartVM.OrderHeader.Id});
         }
 
         public IActionResult OrderConfirmation(int id)
         {
-            OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(aa => aa.id == id, includeProperties: "ApplicationUser");
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(aa => aa.Id == id, includeProperties: "ApplicationUser");
             if(orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
             {
                 // this is an order by customer

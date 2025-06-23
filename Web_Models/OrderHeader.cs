@@ -11,7 +11,7 @@ namespace Web.Models
 {
     public class OrderHeader
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string ApplicationUserId { get; set; }
 
         [ForeignKey("ApplicationUserId")]

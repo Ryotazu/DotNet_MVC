@@ -114,38 +114,6 @@ namespace E_Commerce.Areas.Admin.Controllers
                 return View();
         }
 
-        //public IActionResult Delete(int? id) 
-        //{
-        //    if (id == null || id == 0)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    Product product = _unitOfWork.Product.Get(a => a.Id == id);
-
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(product);
-        //}
-
-        //[HttpPost, ActionName("Delete")]
-        //public IActionResult DeletePost(int? id)
-        //{
-        //    Product? obj = _unitOfWork.Product.Get(u => u.Id == id);
-        //    if (obj == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _unitOfWork.Product.Remove(obj);
-        //    _unitOfWork.Save();
-        //    TempData["Success"] = "Product Deleted successfully";
-        //    return RedirectToAction("Index");
-        //}
-
         #region API CALLS
         [HttpGet]
         public IActionResult GetAll() 
