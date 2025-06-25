@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Web.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Web.Utility;
 
 namespace E_Commerce.Areas.Customer.Controllers
 {
@@ -50,14 +51,23 @@ namespace E_Commerce.Areas.Customer.Controllers
 
             if (cartFromDb != null)
             {
+                // shopping cart exists
                 cartFromDb.Count += shoppingCart.Count;
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
+                _unitOfWork.Save();
             } else
             {
+                // add cart record
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
+                _unitOfWork.Save();
+
+                int cartCount = _unitOfWork.ShoppingCart.GetAll(a => a.ApplicationUserId == userId).Count();
+                HttpContext.Session.SetInt32(SD.SessionCart, cartCount);
             }
             TempData["success"] = "Cart updated successfully";
-            _unitOfWork.Save();
+
+
+
 
             return RedirectToAction(nameof(Index));
         }
