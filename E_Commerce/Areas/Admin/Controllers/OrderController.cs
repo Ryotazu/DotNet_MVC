@@ -140,7 +140,8 @@ namespace E_Commerce.Areas.Admin.Controllers
 
             // it is a regular customer account and need to capture the payment
             // stripe logic
-            var domain = "https://localhost:7124/";
+            //var domain = "https://localhost:7124/";
+            var domain = Request.Scheme + "://" + Request.Host.Value + "/";
             var options = new SessionCreateOptions
             {
                 SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHeaderId={OrderVM.OrderHeader.Id}",

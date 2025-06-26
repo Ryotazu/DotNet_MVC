@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using System.Security.Claims;
@@ -14,11 +16,13 @@ namespace E_Commerce.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailSender _emailSender;
         [BindProperty]
         public ShoppingCartVM ShoppingCartVM { get; set; }
-        public CartController(IUnitOfWork unitOfWork)
+        public CartController(IUnitOfWork unitOfWork, IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -124,7 +128,9 @@ namespace E_Commerce.Areas.Customer.Controllers
             {
                 // it is a regular customer account and need to capture the payment
                 // stripe logic
-                var domain = "https://localhost:7124/";
+                //var domain = "https://localhost:7124/";
+                var domain = Request.Scheme + "://" + Request.Host.Value + "/";
+
                 var options = new SessionCreateOptions
                 {
                     SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
@@ -182,6 +188,9 @@ namespace E_Commerce.Areas.Customer.Controllers
                 }
                 HttpContext.Session.Clear();
             }
+
+            _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New Order - E Commerce Web (Book)", $"<p>New Order Created - { orderHeader.Id }</p>");
+
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart
                 .GetAll(aa=> aa.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
 
