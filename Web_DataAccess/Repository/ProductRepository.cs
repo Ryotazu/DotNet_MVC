@@ -31,11 +31,11 @@ namespace Web.DataAccess.Repository
                 objFromDb.Price50 = obj.Price50;
                 objFromDb.Price = obj.Price;
                 objFromDb.ListPrice = obj.ListPrice;
-
-                if (obj.ImageUrl != null)
-                {
-                    objFromDb.ImageUrl = obj.ImageUrl;
-                }
+                objFromDb.ProductImages = obj.ProductImages;
+                //if (obj.ImageUrl != null)
+                //{
+                //    objFromDb.ImageUrl = obj.ImageUrl;
+                //}
             }
         }
     }
